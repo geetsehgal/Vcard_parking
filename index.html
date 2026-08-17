@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Card</title>
+<meta name="description" content="Scan-to-contact card">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <main class="card" role="main">
+
+    <div class="avatar-slot">
+      <img id="photo" src="photo.jpg" alt="Profile photo" onerror="this.style.display='none'; document.getElementById('initials').style.display='flex';">
+      <div id="initials" class="initials"></div>
+    </div>
+
+    <h1 id="name" class="name">Your Name</h1>
+    <p id="bio1" class="bio-line">Line one about you goes here.</p>
+    <p id="bio2" class="bio-line">Line two about you goes here.</p>
+
+    <div class="plates">
+      <div class="plate-row">
+        <span class="plate-label">CAR</span>
+        <span id="carNumber" class="plate">KA 00 XX 0000</span>
+      </div>
+      <div class="plate-row">
+        <span class="plate-label">BIKE</span>
+        <span id="bikeNumber" class="plate">KA 00 XX 0000</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a id="callBtn" class="btn btn-call" href="tel:+910000000000">
+        <span class="btn-icon">&#9742;</span> Call Me
+      </a>
+      <button id="vcardBtn" class="btn btn-save" type="button">
+        <span class="btn-icon">&#8595;</span> Save Contact
+      </button>
+    </div>
+
+    <p class="footnote">Scan &middot; Save &middot; Reach me in seconds</p>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

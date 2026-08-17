@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generate your QR code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .card { max-width: 420px; text-align: left; }
+  .card h1 { font-size: 20px; text-align: center; margin-bottom: 4px; }
+  .card p.lead { text-align: center; color: var(--muted); font-size: 13.5px; margin-top: 0; }
+  label { display:block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.08em; color:var(--muted); margin: 18px 0 6px; }
+  input[type=text] {
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);
+    background: var(--surface-2); color: var(--text); font-size:14px; font-family:'Manrope',sans-serif;
+  }
+  input[type=text]:focus { outline:2px solid var(--plate-yellow); outline-offset:1px; }
+  .qr-preview { display:flex; justify-content:center; margin: 24px 0 6px; min-height: 260px; align-items:center; }
+  .qr-preview img { border-radius: 12px; background:#fff; padding:14px; }
+  .hint { font-size: 12px; color: var(--muted); text-align:center; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main class="card">
+    <h1>Generate your QR code</h1>
+    <p class="lead">Point this at your live GitHub Pages link, then download and print.</p>
+
+    <label for="urlInput">Your live page URL</label>
+    <input type="text" id="urlInput" placeholder="https://yourusername.github.io/your-repo/" autocomplete="off">
+
+    <div class="qr-preview" id="qrPreview"></div>
+    <p class="hint" id="hint">Type your URL above to preview the code.</p>
+
+    <div class="actions" style="margin-top:18px;">
+      <a id="downloadBtn" class="btn btn-call" href="#" download="my-qr-code.png" style="display:none;">
+        <span class="btn-icon">&#8595;</span> Download QR PNG
+      </a>
+    </div>
+
+    <p class="footnote">Laminate the printed code before sticking it on glass so it survives sun and rain.</p>
+  </main>
+</div>
+
+<script>
+  const input = document.getElementById("urlInput");
+  const preview = document.getElementById("qrPreview");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const hint = document.getElementById("hint");
+
+  // Default to this page's own site root if opened live, to save typing.
+  if (location.protocol.startsWith("http")) {
+    input.value = location.origin + location.pathname.replace(/qr\.html$/, "");
+  }
+
+  function update() {
+    const url = input.value.trim();
+    if (!url) {
+      preview.innerHTML = "";
+      downloadBtn.style.display = "none";
+      hint.textContent = "Type your URL above to preview the code.";
+      return;
+    }
+    const qrSrc = "https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=10&data=" + encodeURIComponent(url);
+    preview.innerHTML = `<img src="${qrSrc}" width="220" height="220" alt="QR code for ${url}">`;
+    downloadBtn.href = qrSrc;
+    downloadBtn.style.display = "flex";
+    hint.textContent = "Right-click \u2192 Save, or use the download button below.";
+  }
+
+  input.addEventListener("input", update);
+  update();
+</script>
+</body>
+</html>
