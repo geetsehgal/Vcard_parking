@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scan &amp; Call — Vehicle Contact Cards</title>
-<meta name="description" content="A laminated, permanent QR sticker for your car or bike. Anyone who needs you to move your vehicle can scan and call instantly — no confrontation, no anxious building owners.">
+<meta name="description" content="A laminated, permanent QR code for your car or bike. Anyone who needs you to move your vehicle can scan and call instantly — no confrontation, no anxious building owners.">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -18,7 +18,6 @@ img{max-width:100%;display:block;}
 .container{max-width:480px;margin:0 auto;padding:0 20px;}
 a{color:inherit;}
 
-/* Hero */
 .hero{padding:48px 0 36px;text-align:center;background:radial-gradient(circle at 50% 0%, rgba(244,196,48,0.08), transparent 60%);}
 .badge{display:inline-block;background:var(--surface-2);border:1px solid rgba(244,196,48,0.35);color:var(--plate-yellow);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:999px;margin-bottom:18px;}
 .hero h1{font-size:30px;font-weight:800;line-height:1.25;margin:0 0 14px;letter-spacing:-0.01em;}
@@ -26,32 +25,26 @@ a{color:inherit;}
 .hero p{color:var(--muted);font-size:15px;line-height:1.6;margin:0 0 28px;}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#0b1a10;font-weight:700;padding:15px 28px;border-radius:var(--radius-sm);text-decoration:none;font-size:15px;}
 
-/* Sections */
 section{padding:40px 0;border-top:1px solid rgba(255,255,255,0.06);}
 .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);margin:0 0 8px;text-transform:uppercase;}
 h2{font-size:21px;font-weight:800;margin:0 0 18px;letter-spacing:-0.01em;}
 
-/* Problem/solution */
 .pain-card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:22px;margin-bottom:14px;}
 .pain-card p{margin:0;font-size:14.5px;line-height:1.6;color:var(--muted);}
 .pain-card strong{color:var(--text);}
 
-/* Steps */
 .step{display:flex;gap:14px;margin-bottom:20px;}
 .step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(244,196,48,0.4);color:var(--plate-yellow);font-family:'Space Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;}
 .step-text h3{margin:4px 0 4px;font-size:15px;}
 .step-text p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;}
 
-/* Product cards */
 .products{display:flex;flex-direction:column;gap:14px;}
 .product{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:24px;position:relative;overflow:hidden;}
 .product::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--plate-yellow),var(--green));}
 .product h3{font-size:18px;margin:6px 0 6px;}
 .product .price{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--plate-yellow);margin:0 0 10px;}
-.product .price span{font-size:13px;color:var(--muted);font-weight:400;}
 .product ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.7;}
 
-/* Order/payment */
 .order-box{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:26px 22px;}
 .qty-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;}
 .qty-row label{font-size:14px;font-weight:500;}
@@ -69,10 +62,34 @@ h2{font-size:21px;font-weight:800;margin:0 0 18px;letter-spacing:-0.01em;}
 .qr-preview img{margin:0 auto;border-radius:12px;background:#fff;padding:12px;}
 .qr-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:8px;}
 
-.form-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--surface-2);color:var(--text);border:1px solid rgba(255,255,255,0.12);font-weight:700;padding:15px 20px;border-radius:var(--radius-sm);text-decoration:none;font-size:15px;}
-.order-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:14px;text-align:center;}
+/* Order form */
+.form-section{margin-top:22px;padding-top:22px;border-top:1px dashed rgba(255,255,255,0.12);}
+.form-section.disabled{opacity:0.4;pointer-events:none;}
+.form-section h3{font-size:15px;margin:0 0 4px;}
+.form-hint{font-size:12.5px;color:var(--muted);margin:0 0 16px;line-height:1.5;}
+label{display:block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px;}
+input[type=text], input[type=email], input[type=tel] {
+  width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);
+  background: var(--surface-2); color: var(--text); font-size:14px; font-family:'Manrope',sans-serif;
+}
+input[type=file]{ width:100%; color: var(--muted); font-size: 13px; margin-top: 4px; }
+input:focus{ outline:2px solid var(--plate-yellow); outline-offset:1px; }
+.field-hint{font-size:11.5px;color:var(--muted);margin-top:4px;}
+.section-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--plate-yellow);margin:22px 0 4px;text-transform:uppercase;}
 
-/* FAQ */
+.submit-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--green);color:#0b1a10;font-weight:700;padding:15px 20px;border-radius:var(--radius-sm);border:none;font-size:15px;margin-top:22px;cursor:pointer;}
+.submit-btn:disabled{opacity:0.5;}
+#errorBox{display:none;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);color:#ff9d9d;padding:10px 14px;border-radius:10px;font-size:13px;margin-top:14px;}
+
+.returning-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:transparent;color:var(--muted);border:1px dashed rgba(255,255,255,0.15);font-weight:600;padding:13px 20px;border-radius:var(--radius-sm);font-size:13.5px;margin-top:14px;cursor:pointer;}
+
+#orderResult{display:none;text-align:center;}
+#orderResult img{margin:16px auto;border-radius:12px;background:#fff;padding:14px;}
+
+/* Support */
+.support-box{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px 18px;display:flex;flex-direction:column;gap:8px;}
+.support-box a{font-size:14px;font-weight:600;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:8px;}
+
 .faq-item{margin-bottom:16px;}
 .faq-item h3{font-size:14.5px;margin:0 0 5px;}
 .faq-item p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.6;}
@@ -87,7 +104,7 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
   <div class="container">
     <span class="badge">SCAN &middot; CALL &middot; MOVE ON</span>
     <h1>Stop being <span>"that car"</span> blocking someone's gate.</h1>
-    <p>A permanent, laminated QR sticker for your car or bike. Anyone who needs you to move gets your number instantly — no confrontation, no anxious building owner, no towing.</p>
+    <p>A permanent, laminated QR code for your car or bike. Anyone who needs you to move gets your number instantly — no confrontation, no anxious building owner, no towing.</p>
     <a href="#order" class="hero-cta">Order yours — from ₹399</a>
   </div>
 </div>
@@ -130,7 +147,7 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
       <div class="step-num">3</div>
       <div class="step-text">
         <h3>Delivered to your door</h3>
-        <p>Arrives in 3–5 days. Peel, stick, done.</p>
+        <p>Arrives in 3–5 days, laminated and ready to mount.</p>
       </div>
     </div>
   </div>
@@ -145,8 +162,8 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
         <h3>🏍️ Bike Pack</h3>
         <p class="price">₹399</p>
         <ul>
-          <li>2 laminated stickers (front + back)</li>
-          <li>Weatherproof, permanent QR</li>
+          <li>2 laminated QR codes (front + back)</li>
+          <li>Weatherproof, permanent</li>
           <li>Free doorstep delivery</li>
         </ul>
       </div>
@@ -154,8 +171,8 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
         <h3>🚗 Car Pack</h3>
         <p class="price">₹699</p>
         <ul>
-          <li>2 laminated stickers (front + back glass)</li>
-          <li>Weatherproof, permanent QR</li>
+          <li>2 laminated QR codes (front + back glass)</li>
+          <li>Weatherproof, permanent</li>
           <li>Free doorstep delivery</li>
         </ul>
       </div>
@@ -171,7 +188,7 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
     <div class="order-box">
       <div class="qty-row">
         <div>
-          <label>Bike Pack</label><br>
+          <label style="margin:0;">Bike Pack</label>
           <span class="qty-price">₹399 each</span>
         </div>
         <div class="qty-controls">
@@ -182,7 +199,7 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
       </div>
       <div class="qty-row">
         <div>
-          <label>Car Pack</label><br>
+          <label style="margin:0;">Car Pack</label>
           <span class="qty-price">₹699 each</span>
         </div>
         <div class="qty-controls">
@@ -198,18 +215,91 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
       </div>
 
       <a id="upiPayBtn" class="pay-btn disabled" href="#">
-        <span>📲</span> Pay ₹0 via UPI
+        <span>📲</span> Make Payment
       </a>
       <div class="qr-preview" id="qrPreview">
         <img id="qrImg" width="180" height="180" alt="UPI payment QR code">
-        <p class="qr-hint">On a computer? Scan this with any UPI app instead.</p>
+        <p class="qr-hint">No UPI app that opens automatically? Scan this with any UPI app instead.</p>
       </div>
 
-      <a id="formBtn" class="form-btn" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">
-        <span>📝</span> After paying, submit your order details
-      </a>
+      <!-- ORDER FORM (first-time customers) -->
+      <div class="form-section disabled" id="formSection">
+        <h3>Your details</h3>
+        <p class="form-hint">First time ordering? Fill this in after paying — it creates your digital card and submits your order in one go.</p>
 
-      <p class="order-note">Pay first, then fill the form with your delivery address, vehicle details, and a screenshot of the payment — we'll confirm and ship within 3–5 days.</p>
+        <form id="orderForm">
+          <p class="section-label">Contact &amp; delivery</p>
+          <label for="name">Full name *</label>
+          <input type="text" id="name" required>
+
+          <label for="phone">Phone number (with country code) *</label>
+          <input type="tel" id="phone" placeholder="+91..." required>
+
+          <label for="email">Email address *</label>
+          <input type="email" id="email" required>
+          <p class="field-hint">Used to identify your card if you ever need to update it.</p>
+
+          <label for="address">Delivery address *</label>
+          <input type="text" id="address" required>
+
+          <label for="city">City *</label>
+          <input type="text" id="city" required>
+
+          <label for="pincode">Pincode *</label>
+          <input type="text" id="pincode" required>
+
+          <p class="section-label">Your card details</p>
+          <label for="carNumber">Car number</label>
+          <input type="text" id="carNumber">
+
+          <label for="bikeNumber">Bike number</label>
+          <input type="text" id="bikeNumber">
+
+          <label for="bio1">Bio line 1</label>
+          <input type="text" id="bio1" maxlength="60">
+
+          <label for="bio2">Bio line 2</label>
+          <input type="text" id="bio2" maxlength="60">
+
+          <label for="photo">Photo (optional)</label>
+          <input type="file" id="photo" accept="image/*">
+          <p class="field-hint">Leave blank to show your initials instead.</p>
+
+          <p class="section-label">Payment proof</p>
+          <label for="utr">UPI transaction reference (UTR) *</label>
+          <input type="text" id="utr" required>
+          <p class="field-hint">Found in your UPI app's payment confirmation.</p>
+
+          <label for="screenshot">Screenshot of payment *</label>
+          <input type="file" id="screenshot" accept="image/*" required>
+
+          <button id="submitBtn" class="submit-btn" type="submit">Submit order</button>
+          <div id="errorBox"></div>
+        </form>
+
+        <button type="button" class="returning-btn" onclick="showReturningNote()">↩ Returning customer? Tap here</button>
+        <p class="field-hint" id="returningNote" style="display:none;text-align:center;margin-top:10px;">Returning-customer ordering is coming soon. For now, please contact support below and we'll sort your order manually.</p>
+      </div>
+
+      <!-- Success view -->
+      <div id="orderResult">
+        <h3>Order received! 🎉</h3>
+        <p class="form-hint">We'll confirm your payment and ship within 3–5 days. Your digital card is already live:</p>
+        <img id="qrResultImg" width="180" height="180" alt="Your QR code">
+        <p><a id="pageResultLink" href="#" target="_blank" rel="noopener"></a></p>
+        <p class="field-hint">Order reference: <span id="orderIdText"></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="eyebrow">Need help?</p>
+    <h2>Talk to us</h2>
+    <div class="support-box">
+      <a href="tel:+917838338058"><span>📞</span> +91 78383 38058</a>
+      <a href="mailto:geetsehgal1990@proton.me"><span>✉️</span> geetsehgal1990@proton.me</a>
     </div>
   </div>
 </section>
@@ -220,35 +310,36 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
     <h2>FAQs</h2>
     <div class="faq-item">
       <h3>Does the QR code expire?</h3>
-      <p>No — it's permanent. Your linked page can be updated anytime without needing a new sticker.</p>
+      <p>No — it's permanent. Your linked page can be updated anytime without needing a new print.</p>
     </div>
     <div class="faq-item">
       <h3>Will it survive sun and rain?</h3>
-      <p>Yes, every sticker is laminated to be weatherproof before it ships.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What if I don't have a digital card yet?</h3>
-      <p>No problem — mention it in the order form and we'll set one up for you using the details you share.</p>
+      <p>Yes, it's laminated to be weatherproof before it ships.</p>
     </div>
     <div class="faq-item">
       <h3>How do I pay?</h3>
-      <p>Via UPI — tap the pay button on your phone, or scan the QR code with any UPI app. After paying, submit the order form so we can confirm and start printing.</p>
+      <p>Tap "Make Payment" to pay via your UPI app, or scan the QR code shown if that's easier. Then fill in your details below to complete the order.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Something not working?</h3>
+      <p>Call or email us using the details above and we'll help directly.</p>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <p>Made with care, one sticker at a time.</p>
+    <p>Made with care, one QR code at a time.</p>
   </div>
 </footer>
 
 <script>
   // ============================================================
-  // EDIT THESE — your UPI ID and payee name
+  // EDIT THESE if needed
   // ============================================================
-  const UPI_ID = "yourupi@bank";      // e.g. "9876543210@okhdfcbank"
-  const PAYEE_NAME = "Your Name";
+  const UPI_ID = "akshaynocap@okhdfcbank";
+  const PAYEE_NAME = "Vehicle Card Store";
+  const WORKER_URL = "https://card-id-card-api.geetsehgal.workers.dev";
   // ============================================================
 
   const PRICES = { bike: 399, car: 699 };
@@ -266,11 +357,13 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
 
     const payBtn = document.getElementById("upiPayBtn");
     const qrPreview = document.getElementById("qrPreview");
+    const formSection = document.getElementById("formSection");
 
     if (total === 0) {
       payBtn.classList.add("disabled");
-      payBtn.innerHTML = "<span>📲</span> Pay ₹0 via UPI";
+      payBtn.innerHTML = "<span>📲</span> Make Payment";
       qrPreview.style.display = "none";
+      formSection.classList.add("disabled");
       return;
     }
 
@@ -279,11 +372,89 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
 
     payBtn.classList.remove("disabled");
     payBtn.href = upiUrl;
-    payBtn.innerHTML = `<span>📲</span> Pay ₹${total} via UPI`;
+    payBtn.innerHTML = `<span>📲</span> Make Payment (₹${total})`;
 
     document.getElementById("qrImg").src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=" + encodeURIComponent(upiUrl);
     qrPreview.style.display = "block";
+    formSection.classList.remove("disabled");
   }
+
+  function showReturningNote() {
+    document.getElementById("returningNote").style.display = "block";
+  }
+
+  // Resize + compress a photo client-side so uploads stay well under GitHub's 1MB file limit.
+  async function compressImage(file, maxDimension = 800, quality = 0.72) {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    return new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+  }
+
+  const orderForm = document.getElementById("orderForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const errorBox = document.getElementById("errorBox");
+
+  orderForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorBox.style.display = "none";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    try {
+      const fd = new FormData();
+      fd.append("name", document.getElementById("name").value.trim());
+      fd.append("phone", document.getElementById("phone").value.trim());
+      fd.append("email", document.getElementById("email").value.trim());
+      fd.append("address", document.getElementById("address").value.trim());
+      fd.append("city", document.getElementById("city").value.trim());
+      fd.append("pincode", document.getElementById("pincode").value.trim());
+      fd.append("carNumber", document.getElementById("carNumber").value.trim());
+      fd.append("bikeNumber", document.getElementById("bikeNumber").value.trim());
+      fd.append("bio1", document.getElementById("bio1").value.trim());
+      fd.append("bio2", document.getElementById("bio2").value.trim());
+      fd.append("utr", document.getElementById("utr").value.trim());
+      fd.append("bikeQty", qty.bike);
+      fd.append("carQty", qty.car);
+      fd.append("totalAmount", qty.bike * PRICES.bike + qty.car * PRICES.car);
+
+      const photoInput = document.getElementById("photo");
+      if (photoInput.files[0]) {
+        const compressed = await compressImage(photoInput.files[0]);
+        fd.append("photo", compressed, "photo.jpg");
+      }
+
+      const screenshotInput = document.getElementById("screenshot");
+      if (!screenshotInput.files[0]) throw new Error("Please attach a screenshot of your payment.");
+      const compressedShot = await compressImage(screenshotInput.files[0], 1000, 0.75);
+      fd.append("screenshot", compressedShot, "screenshot.jpg");
+
+      const resp = await fetch(WORKER_URL + "/order", { method: "POST", body: fd });
+      const data = await resp.json();
+
+      if (!resp.ok || !data.ok) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      document.getElementById("qrResultImg").src = data.qrUrl;
+      document.getElementById("pageResultLink").href = data.pageUrl;
+      document.getElementById("pageResultLink").textContent = data.pageUrl;
+      document.getElementById("orderIdText").textContent = data.orderId;
+
+      document.getElementById("formSection").style.display = "none";
+      document.getElementById("orderResult").style.display = "block";
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.style.display = "block";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit order";
+    }
+  });
 </script>
 </body>
 </html>
