@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get your free car ID card</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .card { max-width: 420px; text-align: left; }
+  .card h1 { font-size: 20px; text-align: center; margin-bottom: 4px; }
+  .card p.lead { text-align: center; color: var(--muted); font-size: 13.5px; margin-top: 0; }
+  label { display:block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.08em; color:var(--muted); margin: 16px 0 6px; }
+  input[type=text], input[type=email], input[type=tel] {
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);
+    background: var(--surface-2); color: var(--text); font-size:14px; font-family:'Manrope',sans-serif;
+  }
+  input[type=file] { width:100%; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  input:focus { outline:2px solid var(--plate-yellow); outline-offset:1px; }
+  .hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  #result { display:none; text-align:center; margin-top: 10px; }
+  #result img { border-radius: 12px; background:#fff; padding:14px; margin: 16px 0; }
+  #errorBox { display:none; background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.3); color: #ff9d9d; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-top: 14px; }
+  #submitBtn:disabled { opacity: 0.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main class="card">
+
+    <div id="formView">
+      <h1>Get your free card</h1>
+      <p class="lead">Fill this in once — you'll get your link and QR code instantly below.</p>
+
+      <form id="cardForm">
+        <label for="name">Full name *</label>
+        <input type="text" id="name" required>
+
+        <label for="phone">Phone number (with country code) *</label>
+        <input type="tel" id="phone" placeholder="+91..." required>
+
+        <label for="email">Email address *</label>
+        <input type="email" id="email" required>
+        <p class="hint">Used only to let you edit your card later — resubmit with the same email to update it, your link and QR stay the same.</p>
+
+        <label for="carNumber">Car number</label>
+        <input type="text" id="carNumber">
+
+        <label for="bikeNumber">Bike number</label>
+        <input type="text" id="bikeNumber">
+
+        <label for="bio1">Bio line 1</label>
+        <input type="text" id="bio1" maxlength="60">
+
+        <label for="bio2">Bio line 2</label>
+        <input type="text" id="bio2" maxlength="60">
+
+        <label for="photo">Photo (optional)</label>
+        <input type="file" id="photo" accept="image/*">
+        <p class="hint">Leave blank to show your initials instead. Large photos are automatically resized.</p>
+
+        <div class="actions" style="margin-top:22px;">
+          <button id="submitBtn" class="btn btn-call" type="submit">Create my card</button>
+        </div>
+        <div id="errorBox"></div>
+      </form>
+    </div>
+
+    <div id="result">
+      <h1 id="resultHeading">Your card is live 🎉</h1>
+      <p class="lead" id="resultSub">Here's your permanent link and QR code.</p>
+      <img id="qrImg" width="220" height="220" alt="Your QR code">
+      <p><a id="pageLink" href="#" target="_blank" rel="noopener"></a></p>
+      <div class="actions">
+        <a id="downloadQrBtn" class="btn btn-call" href="#" download="my-qr-code.png">
+          <span class="btn-icon">&#8595;</span> Download QR PNG
+        </a>
+      </div>
+      <p class="footnote">Print it 4–5cm wide, laminate it, and stick it on your windshield.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Set this to your deployed Worker URL after you complete the Cloudflare setup step.
+  const WORKER_URL = "https://card-id-card-api.geetsehgal.workers.dev";
+
+  const form = document.getElementById("cardForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const errorBox = document.getElementById("errorBox");
+  const formView = document.getElementById("formView");
+  const result = document.getElementById("result");
+
+  // Resize + compress a photo client-side so uploads stay well under GitHub's 1MB file limit.
+  async function compressImage(file, maxDimension = 800, quality = 0.72) {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    return new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorBox.style.display = "none";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Creating...";
+
+    try {
+      const fd = new FormData();
+      fd.append("name", document.getElementById("name").value.trim());
+      fd.append("phone", document.getElementById("phone").value.trim());
+      fd.append("email", document.getElementById("email").value.trim());
+      fd.append("carNumber", document.getElementById("carNumber").value.trim());
+      fd.append("bikeNumber", document.getElementById("bikeNumber").value.trim());
+      fd.append("bio1", document.getElementById("bio1").value.trim());
+      fd.append("bio2", document.getElementById("bio2").value.trim());
+
+      const photoInput = document.getElementById("photo");
+      if (photoInput.files[0]) {
+        const compressed = await compressImage(photoInput.files[0]);
+        fd.append("photo", compressed, "photo.jpg");
+      }
+
+      const resp = await fetch(WORKER_URL, { method: "POST", body: fd });
+      const data = await resp.json();
+
+      if (!resp.ok || !data.ok) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      document.getElementById("resultHeading").textContent = data.isUpdate ? "Your card has been updated ✅" : "Your card is live 🎉";
+      document.getElementById("resultSub").textContent = data.isUpdate
+        ? "Your link and QR code are unchanged — no need to reprint anything."
+        : "Here's your permanent link and QR code.";
+      document.getElementById("qrImg").src = data.qrUrl;
+      document.getElementById("pageLink").href = data.pageUrl;
+      document.getElementById("pageLink").textContent = data.pageUrl;
+      document.getElementById("downloadQrBtn").href = data.qrUrl;
+
+      formView.style.display = "none";
+      result.style.display = "block";
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.style.display = "block";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Create my card";
+    }
+  });
+</script>
+</body>
+</html>
