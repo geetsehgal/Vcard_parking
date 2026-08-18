@@ -84,6 +84,7 @@ button{padding:12px 18px;border-radius:10px;border:none;background:var(--green);
         if (o.bikeQty > 0) items.push(`Bike x${o.bikeQty}`);
         if (o.carQty > 0) items.push(`Car x${o.carQty}`);
         const screenshotUrl = `${WORKER_URL}/orders/file?path=${encodeURIComponent(o.screenshotPath)}&key=${encodeURIComponent(key)}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=800x800&margin=10&data=${encodeURIComponent(o.cardUrl)}`;
         const date = new Date(o.createdAt).toLocaleString();
 
         const card = document.createElement("div");
@@ -99,6 +100,7 @@ button{padding:12px 18px;border-radius:10px;border:none;background:var(--green);
           <div class="row"><b>Address:</b> ${escapeHtml(o.address)}, ${escapeHtml(o.city)} - ${escapeHtml(o.pincode)}</div>
           <div class="row"><b>UTR:</b> ${escapeHtml(o.utr)}</div>
           <div class="row"><a href="${o.cardUrl}" target="_blank" rel="noopener">View digital card →</a></div>
+          <div class="row"><a href="${qrUrl}" target="_blank" rel="noopener">View / print QR code →</a></div>
           <div class="row"><a href="${screenshotUrl}" target="_blank" rel="noopener">View payment screenshot →</a></div>
         `;
         list.appendChild(card);
