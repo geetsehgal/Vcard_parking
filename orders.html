@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12151b;--surface:#1c212b;--surface-2:#242b37;--plate-yellow:#f4c430;--text:#eef1f5;--muted:#8a93a3;--green:#33d17a;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Manrope',system-ui,sans-serif;padding:20px 16px 60px;}
+h1{font-size:20px;margin:0 0 16px;}
+.key-row{display:flex;gap:8px;margin-bottom:20px;}
+input[type=password]{flex:1;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:var(--surface-2);color:var(--text);font-size:14px;}
+button{padding:12px 18px;border-radius:10px;border:none;background:var(--green);color:#0b1a10;font-weight:700;font-size:14px;}
+.order-card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px;margin-bottom:14px;}
+.order-card .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.order-card .name{font-weight:700;font-size:15px;}
+.order-card .amount{font-family:'Space Mono',monospace;color:var(--plate-yellow);font-weight:700;}
+.order-card .row{font-size:13px;color:var(--muted);margin:3px 0;}
+.order-card .row b{color:var(--text);font-weight:500;}
+.order-card a{color:var(--green);text-decoration:none;font-size:13px;}
+.order-card img{margin-top:10px;border-radius:8px;max-width:180px;}
+.status{display:inline-block;font-family:'Space Mono',monospace;font-size:10.5px;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);letter-spacing:.05em;}
+#loadingMsg, #emptyMsg{color:var(--muted);font-size:13px;display:none;}
+#errorMsg{color:#ff9d9d;font-size:13px;display:none;}
+</style>
+</head>
+<body>
+  <h1>Orders</h1>
+  <div class="key-row">
+    <input type="password" id="keyInput" placeholder="Admin key">
+    <button onclick="loadOrders()">Load</button>
+  </div>
+  <p id="loadingMsg">Loading...</p>
+  <p id="emptyMsg">No orders yet.</p>
+  <p id="errorMsg"></p>
+  <div id="orderList"></div>
+
+<script>
+  // Set this to your deployed Worker URL.
+  const WORKER_URL = "https://card-id-card-api.geetsehgal.workers.dev";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("orders_admin_key");
+    if (saved) {
+      document.getElementById("keyInput").value = saved;
+      loadOrders();
+    }
+  });
+
+  async function loadOrders() {
+    const key = document.getElementById("keyInput").value.trim();
+    const list = document.getElementById("orderList");
+    const loadingMsg = document.getElementById("loadingMsg");
+    const emptyMsg = document.getElementById("emptyMsg");
+    const errorMsg = document.getElementById("errorMsg");
+
+    list.innerHTML = "";
+    emptyMsg.style.display = "none";
+    errorMsg.style.display = "none";
+    loadingMsg.style.display = "block";
+
+    try {
+      const resp = await fetch(`${WORKER_URL}/orders?key=${encodeURIComponent(key)}`);
+      const data = await resp.json();
+      loadingMsg.style.display = "none";
+
+      if (!resp.ok || !data.ok) {
+        errorMsg.textContent = data.error || "Failed to load orders.";
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      localStorage.setItem("orders_admin_key", key);
+
+      if (data.orders.length === 0) {
+        emptyMsg.style.display = "block";
+        return;
+      }
+
+      data.orders.forEach((o) => {
+        const items = [];
+        if (o.bikeQty > 0) items.push(`Bike x${o.bikeQty}`);
+        if (o.carQty > 0) items.push(`Car x${o.carQty}`);
+        const screenshotUrl = `${WORKER_URL}/orders/file?path=${encodeURIComponent(o.screenshotPath)}&key=${encodeURIComponent(key)}`;
+        const date = new Date(o.createdAt).toLocaleString();
+
+        const card = document.createElement("div");
+        card.className = "order-card";
+        card.innerHTML = `
+          <div class="top">
+            <span class="name">${escapeHtml(o.name)}</span>
+            <span class="amount">₹${o.totalAmount}</span>
+          </div>
+          <div class="row"><span class="status">${escapeHtml(o.status)}</span> &nbsp; ${date}</div>
+          <div class="row"><b>Items:</b> ${items.join(", ")}</div>
+          <div class="row"><b>Phone:</b> ${escapeHtml(o.phone)} &nbsp; <b>Email:</b> ${escapeHtml(o.email)}</div>
+          <div class="row"><b>Address:</b> ${escapeHtml(o.address)}, ${escapeHtml(o.city)} - ${escapeHtml(o.pincode)}</div>
+          <div class="row"><b>UTR:</b> ${escapeHtml(o.utr)}</div>
+          <div class="row"><a href="${o.cardUrl}" target="_blank" rel="noopener">View digital card →</a></div>
+          <div class="row"><a href="${screenshotUrl}" target="_blank" rel="noopener">View payment screenshot →</a></div>
+        `;
+        list.appendChild(card);
+      });
+    } catch (err) {
+      loadingMsg.style.display = "none";
+      errorMsg.textContent = "Network error — check your connection and try again.";
+      errorMsg.style.display = "block";
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+</script>
+</body>
+</html>
