@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan &amp; Call — Vehicle Contact Cards</title>
+<meta name="description" content="A laminated, permanent QR sticker for your car or bike. Anyone who needs you to move your vehicle can scan and call instantly — no confrontation, no anxious building owners.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12151b; --surface:#1c212b; --surface-2:#242b37;
+  --plate-yellow:#f4c430; --ink:#14161a; --text:#eef1f5;
+  --muted:#8a93a3; --green:#33d17a; --radius-lg:20px; --radius-sm:10px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+.container{max-width:480px;margin:0 auto;padding:0 20px;}
+a{color:inherit;}
+
+/* Hero */
+.hero{padding:48px 0 36px;text-align:center;background:radial-gradient(circle at 50% 0%, rgba(244,196,48,0.08), transparent 60%);}
+.badge{display:inline-block;background:var(--surface-2);border:1px solid rgba(244,196,48,0.35);color:var(--plate-yellow);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:999px;margin-bottom:18px;}
+.hero h1{font-size:30px;font-weight:800;line-height:1.25;margin:0 0 14px;letter-spacing:-0.01em;}
+.hero h1 span{color:var(--plate-yellow);}
+.hero p{color:var(--muted);font-size:15px;line-height:1.6;margin:0 0 28px;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#0b1a10;font-weight:700;padding:15px 28px;border-radius:var(--radius-sm);text-decoration:none;font-size:15px;}
+
+/* Sections */
+section{padding:40px 0;border-top:1px solid rgba(255,255,255,0.06);}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);margin:0 0 8px;text-transform:uppercase;}
+h2{font-size:21px;font-weight:800;margin:0 0 18px;letter-spacing:-0.01em;}
+
+/* Problem/solution */
+.pain-card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:22px;margin-bottom:14px;}
+.pain-card p{margin:0;font-size:14.5px;line-height:1.6;color:var(--muted);}
+.pain-card strong{color:var(--text);}
+
+/* Steps */
+.step{display:flex;gap:14px;margin-bottom:20px;}
+.step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(244,196,48,0.4);color:var(--plate-yellow);font-family:'Space Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.step-text h3{margin:4px 0 4px;font-size:15px;}
+.step-text p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;}
+
+/* Product cards */
+.products{display:flex;flex-direction:column;gap:14px;}
+.product{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:24px;position:relative;overflow:hidden;}
+.product::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--plate-yellow),var(--green));}
+.product h3{font-size:18px;margin:6px 0 6px;}
+.product .price{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--plate-yellow);margin:0 0 10px;}
+.product .price span{font-size:13px;color:var(--muted);font-weight:400;}
+.product ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.7;}
+
+/* Order/payment */
+.order-box{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:26px 22px;}
+.qty-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;}
+.qty-row label{font-size:14px;font-weight:500;}
+.qty-row .qty-price{font-family:'Space Mono',monospace;color:var(--plate-yellow);font-size:13.5px;}
+.qty-controls{display:flex;align-items:center;gap:10px;}
+.qty-controls button{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:var(--surface);color:var(--text);font-size:16px;line-height:1;cursor:pointer;}
+.qty-controls span{min-width:16px;text-align:center;font-family:'Space Mono',monospace;}
+.total-row{display:flex;justify-content:space-between;align-items:center;margin:18px 0;padding-top:14px;border-top:1px dashed rgba(255,255,255,0.12);}
+.total-row .label{color:var(--muted);font-size:13.5px;}
+.total-row .amount{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:var(--text);}
+
+.pay-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--green);color:#0b1a10;font-weight:700;padding:15px 20px;border-radius:var(--radius-sm);text-decoration:none;font-size:15px;border:none;margin-bottom:12px;}
+.pay-btn.disabled{opacity:0.45;pointer-events:none;}
+.qr-preview{text-align:center;margin:16px 0;display:none;}
+.qr-preview img{margin:0 auto;border-radius:12px;background:#fff;padding:12px;}
+.qr-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:8px;}
+
+.form-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--surface-2);color:var(--text);border:1px solid rgba(255,255,255,0.12);font-weight:700;padding:15px 20px;border-radius:var(--radius-sm);text-decoration:none;font-size:15px;}
+.order-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:14px;text-align:center;}
+
+/* FAQ */
+.faq-item{margin-bottom:16px;}
+.faq-item h3{font-size:14.5px;margin:0 0 5px;}
+.faq-item p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.6;}
+
+footer{padding:30px 0 50px;text-align:center;}
+footer p{color:var(--muted);font-size:12px;margin:0;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <span class="badge">SCAN &middot; CALL &middot; MOVE ON</span>
+    <h1>Stop being <span>"that car"</span> blocking someone's gate.</h1>
+    <p>A permanent, laminated QR sticker for your car or bike. Anyone who needs you to move gets your number instantly — no confrontation, no anxious building owner, no towing.</p>
+    <a href="#order" class="hero-cta">Order yours — from ₹399</a>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="eyebrow">The problem</p>
+    <h2>You know this scene.</h2>
+    <div class="pain-card">
+      <p><strong>You park for "just five minutes"</strong> outside a building — and end up blocking someone's gate. Now there's a security guard calling, a building owner getting worked up, and you're not even there to explain.</p>
+    </div>
+    <div class="pain-card">
+      <p><strong>No way to reach you</strong> means people escalate fast — angry notes, threats to tow, or worse, they just push your vehicle out of the way themselves.</p>
+    </div>
+    <div class="pain-card">
+      <p><strong>One QR code fixes all of it.</strong> They scan, see it's really your vehicle, tap Call — you're back in two minutes, nobody's upset.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="eyebrow">How it works</p>
+    <h2>Three steps, done in 3–5 days</h2>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h3>Order below</h3>
+        <p>Pick bike or car, pay via UPI, fill in your details and delivery address.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h3>We print &amp; laminate</h3>
+        <p>Your permanent QR code is generated, printed, and sealed in a weatherproof laminate — built to survive sun, rain, and car washes.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h3>Delivered to your door</h3>
+        <p>Arrives in 3–5 days. Peel, stick, done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="eyebrow">Pricing</p>
+    <h2>Simple, one-time pricing</h2>
+    <div class="products">
+      <div class="product">
+        <h3>🏍️ Bike Pack</h3>
+        <p class="price">₹399</p>
+        <ul>
+          <li>2 laminated stickers (front + back)</li>
+          <li>Weatherproof, permanent QR</li>
+          <li>Free doorstep delivery</li>
+        </ul>
+      </div>
+      <div class="product">
+        <h3>🚗 Car Pack</h3>
+        <p class="price">₹699</p>
+        <ul>
+          <li>2 laminated stickers (front + back glass)</li>
+          <li>Weatherproof, permanent QR</li>
+          <li>Free doorstep delivery</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="container">
+    <p class="eyebrow">Order now</p>
+    <h2>Pick what you need</h2>
+
+    <div class="order-box">
+      <div class="qty-row">
+        <div>
+          <label>Bike Pack</label><br>
+          <span class="qty-price">₹399 each</span>
+        </div>
+        <div class="qty-controls">
+          <button type="button" onclick="changeQty('bike', -1)">&minus;</button>
+          <span id="bikeQty">0</span>
+          <button type="button" onclick="changeQty('bike', 1)">+</button>
+        </div>
+      </div>
+      <div class="qty-row">
+        <div>
+          <label>Car Pack</label><br>
+          <span class="qty-price">₹699 each</span>
+        </div>
+        <div class="qty-controls">
+          <button type="button" onclick="changeQty('car', -1)">&minus;</button>
+          <span id="carQty">0</span>
+          <button type="button" onclick="changeQty('car', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <span class="label">Total</span>
+        <span class="amount" id="totalAmount">₹0</span>
+      </div>
+
+      <a id="upiPayBtn" class="pay-btn disabled" href="#">
+        <span>📲</span> Pay ₹0 via UPI
+      </a>
+      <div class="qr-preview" id="qrPreview">
+        <img id="qrImg" width="180" height="180" alt="UPI payment QR code">
+        <p class="qr-hint">On a computer? Scan this with any UPI app instead.</p>
+      </div>
+
+      <a id="formBtn" class="form-btn" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">
+        <span>📝</span> After paying, submit your order details
+      </a>
+
+      <p class="order-note">Pay first, then fill the form with your delivery address, vehicle details, and a screenshot of the payment — we'll confirm and ship within 3–5 days.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="eyebrow">Good to know</p>
+    <h2>FAQs</h2>
+    <div class="faq-item">
+      <h3>Does the QR code expire?</h3>
+      <p>No — it's permanent. Your linked page can be updated anytime without needing a new sticker.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Will it survive sun and rain?</h3>
+      <p>Yes, every sticker is laminated to be weatherproof before it ships.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What if I don't have a digital card yet?</h3>
+      <p>No problem — mention it in the order form and we'll set one up for you using the details you share.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I pay?</h3>
+      <p>Via UPI — tap the pay button on your phone, or scan the QR code with any UPI app. After paying, submit the order form so we can confirm and start printing.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Made with care, one sticker at a time.</p>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  // EDIT THESE — your UPI ID and payee name
+  // ============================================================
+  const UPI_ID = "yourupi@bank";      // e.g. "9876543210@okhdfcbank"
+  const PAYEE_NAME = "Your Name";
+  // ============================================================
+
+  const PRICES = { bike: 399, car: 699 };
+  let qty = { bike: 0, car: 0 };
+
+  function changeQty(item, delta) {
+    qty[item] = Math.max(0, qty[item] + delta);
+    document.getElementById(item + "Qty").textContent = qty[item];
+    updateTotal();
+  }
+
+  function updateTotal() {
+    const total = qty.bike * PRICES.bike + qty.car * PRICES.car;
+    document.getElementById("totalAmount").textContent = "₹" + total;
+
+    const payBtn = document.getElementById("upiPayBtn");
+    const qrPreview = document.getElementById("qrPreview");
+
+    if (total === 0) {
+      payBtn.classList.add("disabled");
+      payBtn.innerHTML = "<span>📲</span> Pay ₹0 via UPI";
+      qrPreview.style.display = "none";
+      return;
+    }
+
+    const note = `Vehicle card order - Bike x${qty.bike}, Car x${qty.car}`;
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${total}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+    payBtn.classList.remove("disabled");
+    payBtn.href = upiUrl;
+    payBtn.innerHTML = `<span>📲</span> Pay ₹${total} via UPI`;
+
+    document.getElementById("qrImg").src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=" + encodeURIComponent(upiUrl);
+    qrPreview.style.display = "block";
+  }
+</script>
+</body>
+</html>
