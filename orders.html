@@ -87,6 +87,16 @@ button{padding:12px 18px;border-radius:10px;border:none;background:var(--green);
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=800x800&margin=10&data=${encodeURIComponent(o.cardUrl)}`;
         const date = new Date(o.createdAt).toLocaleString();
 
+        const emailSubject = "Your vehicle card has shipped!";
+        const emailBody =
+          `Hi ${o.name},\n\n` +
+          `Your payment is confirmed and your order is on its way — expect it within 3-5 days.\n\n` +
+          `Your digital card: ${o.cardUrl}\n` +
+          `Your QR code (for printing/reference): ${qrUrl}\n\n` +
+          `Order reference: ${o.orderId}\n\n` +
+          `Thanks for ordering!`;
+        const mailtoUrl = `mailto:${encodeURIComponent(o.email)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
         const card = document.createElement("div");
         card.className = "order-card";
         card.innerHTML = `
@@ -102,6 +112,7 @@ button{padding:12px 18px;border-radius:10px;border:none;background:var(--green);
           <div class="row"><a href="${o.cardUrl}" target="_blank" rel="noopener">View digital card →</a></div>
           <div class="row"><a href="${qrUrl}" target="_blank" rel="noopener">View / print QR code →</a></div>
           <div class="row"><a href="${screenshotUrl}" target="_blank" rel="noopener">View payment screenshot →</a></div>
+          <div class="row"><a href="${mailtoUrl}">✉️ Email customer their card &amp; QR →</a></div>
         `;
         list.appendChild(card);
       });
