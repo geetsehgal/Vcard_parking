@@ -284,10 +284,9 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
       <!-- Success view -->
       <div id="orderResult">
         <h3>Order received! 🎉</h3>
-        <p class="form-hint">We'll confirm your payment and ship within 3–5 days. Your digital card is already live:</p>
-        <img id="qrResultImg" width="180" height="180" alt="Your QR code">
-        <p><a id="pageResultLink" href="#" target="_blank" rel="noopener"></a></p>
+        <p class="form-hint">We'll verify your payment and get this printed &amp; laminated. Once it's confirmed and on its way, you'll get an email with your card link and QR code.</p>
         <p class="field-hint">Order reference: <span id="orderIdText"></span></p>
+        <p class="field-hint">Save this reference — mention it if you contact support about your order.</p>
       </div>
     </div>
   </div>
@@ -440,9 +439,6 @@ footer p{color:var(--muted);font-size:12px;margin:0;}
         throw new Error(data.error || "Something went wrong. Please try again.");
       }
 
-      document.getElementById("qrResultImg").src = data.qrUrl;
-      document.getElementById("pageResultLink").href = data.pageUrl;
-      document.getElementById("pageResultLink").textContent = data.pageUrl;
       document.getElementById("orderIdText").textContent = data.orderId;
 
       document.getElementById("formSection").style.display = "none";
